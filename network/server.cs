@@ -20,8 +20,15 @@ public static void ExecuteServer()
 	// for the socket. Dns.GetHostName
 	// returns the name of the host
 	// running the application.
-	IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName());
-	IPAddress ipAddr = ipHost.AddressList[0];
+	IPHostEntry ipHost = Dns.GetHostEntry(Dns.GetHostName()); IPAddress ipAddr = ipHost.AddressList[1];
+			foreach (var ip in ipHost.AddressList)
+			{
+				if (ip.AddressFamily == AddressFamily.InterNetwork)
+				{
+					ipAddr = ip;
+				}
+			}
+			
 	IPEndPoint localEndPoint = new IPEndPoint(ipAddr, 11111);
 
 	// Creation TCP/IP Socket using
@@ -45,7 +52,7 @@ public static void ExecuteServer()
 
 		while (true) {
 			
-			Console.WriteLine("Waiting connection ... ");
+			Console.WriteLine("Waiting connection ... "+ ipAddr);
 			
 
 			// Suspend while waiting for
